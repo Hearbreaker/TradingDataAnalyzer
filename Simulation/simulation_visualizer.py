@@ -10,10 +10,10 @@ class SimulationVisualizer:
 	@staticmethod
 	def save_visualization_data(date, visualization_data : VisualizationData):
 		for ticker, info in visualization_data.info_by_ticker.items():
-			SimulationVisualizer._save_plot(ticker, date, info['prices'], info['mcad_history'])
+			SimulationVisualizer._save_plot(ticker, date, info['prices'], info['mcad_history'], info['signal_values'])
 
 	@staticmethod
-	def _save_plot(ticker_symbol, date, stock_prices, mcad_history):
+	def _save_plot(ticker_symbol, date, stock_prices, mcad_history, signal_values):
 		minutes_elapsed = np.arange(len(stock_prices))
 
 		figure, (ax1, ax2) = plt.subplots(2, sharex=True)
@@ -21,6 +21,7 @@ class SimulationVisualizer:
 		#plt.title(ticker_symbol + '--' + str(date))
 		ax1.plot(minutes_elapsed, stock_prices, 'b', label='prices')
 		ax2.plot(minutes_elapsed, mcad_history, 'r', label='mcad history')
+		ax2.plot(minutes_elapsed, signal_values, 'k', label='signal_values')
 
 		'''
 		plt.xlabel('minutes elapsed')

@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 import time
-from datetime import date
-from Models.market_history import MarketHistory
 from BloombergImport.bloomberg_data_reader import BloombergDataReader
 from Simulation.market import Market
 from Simulation.trader import Trader
-from Simulation.vanilla_mcad_strategy import VanillaMcadStrategy
-from Simulation.simulation_visualizer import SimulationVisualizer
+from Simulation.mcad_zero_crossover_strategy import McadZeroCrossoverStrategy
+from Simulation.mcad_signal_line_crossover_strategy import McadSignalLineCrossoverStrategy
 from Simulation.daily_result_evaluator import DailyResultEvaluator
 from Simulation.sharp_ratio import SharpRatio
 
@@ -22,7 +20,15 @@ if __name__ == '__main__':
 
 	num_of_stocks = market.get_num_stocks()
 	initial_capital = capital_per_stock * num_of_stocks
-	trader = Trader(VanillaMcadStrategy(initial_capital, num_of_stocks), capital_per_stock * num_of_stocks)
+
+	trader = Trader(McadSignalLineCrossoverStrategy(initial_capital, num_of_stocks), initial_capital)
+	#trader = Trader(McadZeroCrossoverStrategy(initial_capital, num_of_stocks), initial_capital)
+
+	'''
+	FOR ALBERT: If you need to run full simulation, please turn off plotting in "trader" by commenting:
+			gc.collect()
+			SimulationVisualizer.save_visualization_data(market_snapshot_helper.get_date(), visualization_data)
+	'''
 
 	market.register(trader)
 	market.start()

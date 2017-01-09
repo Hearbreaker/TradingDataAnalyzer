@@ -7,7 +7,7 @@ class VisualizationData:
 
 	def add_price(self, ticker_symbol, price):
 		if ticker_symbol not in self.info_by_ticker:
-			self.info_by_ticker[ticker_symbol] = {'prices': [], 'mcad_history': []}
+			self.info_by_ticker[ticker_symbol] = {'prices': [], 'mcad_history': [], 'signal_values': []}
 
 		self.info_by_ticker[ticker_symbol]['prices'].append(price)
 
@@ -16,3 +16,9 @@ class VisualizationData:
 			self.info_by_ticker[ticker_symbol] = []
 
 		self.info_by_ticker[ticker_symbol]['mcad_history'].append(mcad)
+
+	def add_signal_line(self, ticker_symbol, signal_value):
+		if ticker_symbol not in self.info_by_ticker:
+			self.info_by_ticker[ticker_symbol] = []
+
+		self.info_by_ticker[ticker_symbol]['signal_values'].append(signal_value)
