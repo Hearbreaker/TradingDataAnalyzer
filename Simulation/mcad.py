@@ -5,22 +5,22 @@ __author__ = 'raymond'
 
 
 class Mcad:
-	ema12_constant = 12
-	ema26_constant = 26
+	ema15_constant = 15
+	ema40_constant = 40
 
 	def __init__(self):
-		self.ema12 = ExponentialMovingAverage(Mcad.ema12_constant)
-		self.ema26 = ExponentialMovingAverage(Mcad.ema26_constant)
+		self.ema15 = ExponentialMovingAverage(Mcad.ema15_constant)
+		self.ema40 = ExponentialMovingAverage(Mcad.ema40_constant)
 
 	def evaluate(self, current_price):
-		ema12_result = self.ema12.evaluate(current_price)
-		ema26_result = self.ema26.evaluate(current_price)
+		ema15_result = self.ema15.evaluate(current_price)
+		ema40_result = self.ema40.evaluate(current_price)
 
-		if ema12_result == CalculationStatus.Invalid or ema26_result == CalculationStatus.Invalid:
+		if ema15_result == CalculationStatus.Invalid or ema40_result == CalculationStatus.Invalid:
 			return CalculationStatus.Invalid
 
-		return ema12_result - ema26_result
+		return ema15_result - ema40_result
 
 	def reset(self):
-		self.ema12.reset()
-		self.ema26.reset()
+		self.ema15.reset()
+		self.ema40.reset()

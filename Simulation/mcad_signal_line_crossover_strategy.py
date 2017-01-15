@@ -6,7 +6,7 @@ from Simulation.market_snapshot import MarketSnapshot
 from Simulation.stock_snapshot_helper import StockSnapshotHelper
 from Simulation.visualization_data import VisualizationData
 
-__author__ = 'raymond'
+__author__ = 'Albert'
 
 
 class McadSignalLineCrossoverStrategy:
@@ -60,9 +60,9 @@ class McadSignalLineCrossoverStrategy:
 			self.old_dels[i] = curr_del
 
 			if should_buy > 0:
-				decisions.append((stock_snapshot.ticker, self.transaction_amount))
-			elif should_buy < 0:
 				decisions.append((stock_snapshot.ticker, -self.transaction_amount))
+			elif should_buy < 0:
+				decisions.append((stock_snapshot.ticker, +self.transaction_amount))
 
 		return decisions
 

@@ -12,6 +12,12 @@ class StockSnapshotHelper:
 	def get_mid_price(self):
 		return (self.stock_snapshot.ask_price.last_price + self.stock_snapshot.bid_price.last_price) / 2
 
+	def get_high(self):
+		return (self.stock_snapshot.ask_price.high_price + self.stock_snapshot.bid_price.high_price) / 2
+
+	def get_low(self):
+		return (self.stock_snapshot.ask_price.low_price + self.stock_snapshot.bid_price.low_price) / 2
+
 	def is_end_of_trading_hours(self):
 		if self.stock_snapshot.ask_price.datetime.time() == self._closing_time:
 			return True

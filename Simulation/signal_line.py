@@ -1,23 +1,23 @@
 from Simulation.calculation_status import CalculationStatus
 from Simulation.exponential_moving_average import ExponentialMovingAverage
 
-__author__ = 'raymond'
+__author__ = 'Albert'
 
 
 class SignalLine:
-	ema9_constant = 9
+	ema10_constant = 10
 
-	# 9 period EMA of the MCAD
+	# 10 period EMA of the MCAD
 	def __init__(self):
-		self.ema9 = ExponentialMovingAverage(SignalLine.ema9_constant)
+		self.ema10 = ExponentialMovingAverage(SignalLine.ema10_constant)
 
 	def evaluate(self, current_mcad):
-		ema9_result = self.ema9.evaluate(current_mcad)
+		ema10_result = self.ema10.evaluate(current_mcad)
 
-		if ema9_result == CalculationStatus.Invalid:
+		if ema10_result == CalculationStatus.Invalid:
 			return CalculationStatus.Invalid
 
-		return ema9_result
+		return ema10_result
 
 	def reset(self):
-		self.ema9.reset()
+		self.ema10.reset()
