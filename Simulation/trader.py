@@ -23,7 +23,7 @@ class Trader:
 			daily_result = DailyResult(date, self.cash, portfolio_summary)
 			self.daily_results.append(daily_result)
 			self.portfolio.clear()
-			visualization_data = self.strategy.reset()
+			#visualization_data = self.strategy.reset()
 			#gc.collect()  # needed to free up memory for plots
 			#SimulationVisualizer.save_visualization_data(market_snapshot_helper.get_date(), visualization_data)
 

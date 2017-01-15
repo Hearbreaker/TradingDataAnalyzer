@@ -15,6 +15,7 @@ class StockHistoryRecord:
 		elif price_type == 'ASK':
 			self.prices_by_type['ASK'].append(time_stamp_price)
 
+
 	def get_next(self):
 		for prices in zip(self.prices_by_type['ASK'], self.prices_by_type['BID']):
 			yield StockSnapshot(self.ticker_symbol, prices[0], prices[1])
