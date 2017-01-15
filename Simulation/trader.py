@@ -8,12 +8,13 @@ __author__ = 'raymond'
 
 
 class Trader:
-	def __init__(self, trading_strategy, initial_capital):
+	def __init__(self, trading_strategy, initial_capital, capital_per_stock):
 		self.total_capital_backup = initial_capital
 		self.cash = initial_capital
 		self.strategy = trading_strategy
-		self.portfolio = Portfolio()
+		self.portfolio = Portfolio(capital_per_stock)
 		self.daily_results = []
+		self.per_stock_detail = {}
 
 	def notify(self, market_snapshot):
 		market_snapshot_helper = MarketSnapshotHelper(market_snapshot)
@@ -46,3 +47,11 @@ class Trader:
 			else:
 				print('DEBUG: Should never happen')
 				assert False
+
+
+		portfolio_snapshot = self.portfolio.get_snapshot(market_snapshot)
+		for ticker in portfolio_snapshot:
+			if (ticker in self.per_stock_detail):
+				self.per_stock_detail[ticker].append(portfolio_snapshot[ticker])
+			else:
+				self.per_stock_detail[ticker]=[]

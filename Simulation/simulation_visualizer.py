@@ -39,3 +39,33 @@ class SimulationVisualizer:
 			os.makedirs(results_dir)
 		figure.savefig(results_path)
 		plt.close(figure)
+
+	@staticmethod
+	def plot_pnl(Plist):
+		plt.plot(Plist, label="PnL")
+		plt.xlabel('days')
+		plt.ylabel('PnL')
+		sample_file_name = "PnL"  # .join([c for c in ticker_symbol if c.isalpha() or c.isdigit() or c == ' ']).rstrip()
+		script_dir = os.path.dirname(__file__)
+		results_dir = os.path.join(script_dir, 'Results')
+		results_path = os.path.join(results_dir, sample_file_name)
+		if not os.path.isdir(results_dir):
+			os.makedirs(results_dir)
+		plt.savefig(results_path)
+		plt.close()
+
+
+	@staticmethod
+	def plot_per_stock_pnl(Plist, ticker):
+		sample_file_name = "".join([c for c in ticker if c.isalpha() or c.isdigit() or c == ' ']).rstrip()
+		plt.plot(Plist, label="PnL".join(sample_file_name))
+		plt.xlabel('minutes')
+		plt.ylabel('PnL')
+		script_dir = os.path.dirname(__file__)
+		results_dir = os.path.join(script_dir, 'Results')
+		results_dir = os.path.join(results_dir, 'PerStockPNL')
+		results_path = os.path.join(results_dir, sample_file_name)
+		if not os.path.isdir(results_dir):
+			os.makedirs(results_dir)
+		plt.savefig(results_path)
+		plt.close()

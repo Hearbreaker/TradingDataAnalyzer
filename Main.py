@@ -7,7 +7,7 @@ from Simulation.mcad_zero_crossover_strategy import McadZeroCrossoverStrategy
 from Simulation.mcad_signal_line_crossover_strategy import McadSignalLineCrossoverStrategy
 from Simulation.daily_result_evaluator import DailyResultEvaluator
 from Simulation.sharp_ratio import SharpRatio
-
+from Simulation.simulation_visualizer import SimulationVisualizer
 
 __author__ = 'raymond'
 
@@ -21,8 +21,8 @@ if __name__ == '__main__':
 	num_of_stocks = market.get_num_stocks()
 	initial_capital = capital_per_stock * num_of_stocks
 
-	trader = Trader(McadSignalLineCrossoverStrategy(initial_capital, num_of_stocks), initial_capital)
-	#trader = Trader(McadZeroCrossoverStrategy(initial_capital, num_of_stocks), initial_capital)
+	trader = Trader(McadSignalLineCrossoverStrategy(initial_capital, num_of_stocks), initial_capital, capital_per_stock)
+	#trader = Trader(McadZeroCrossoverStrategy(initial_capital, num_of_stocks), initial_capital, capital_per_stock)
 
 	'''
 	FOR ALBERT: If you need to run full simulation, please turn off plotting in "trader" by commenting:
@@ -35,11 +35,17 @@ if __name__ == '__main__':
 
 	evaluator = DailyResultEvaluator(initial_capital)
 	print('Calculating daily profit and Loss: ' + format(time.clock(), '.2f') + ' secs')
+	Plist = []
 	for daily_result in trader.daily_results:
 		PnL = evaluator.calculate_profit_and_loss(daily_result)
 		print(daily_result.date)
 		print(PnL)
 		print()
-
+		if PnL < 1000000 :
+			Plist.append(PnL)
 	sharp_ratio = SharpRatio(trader.daily_results, evaluator).calculate()
 	print('Sharp ratio: ', sharp_ratio)
+	SimulationVisualizer.plot_pnl(Plist)
+
+	for ticker in trader.per_stock_detail:
+	 	SimulationVisualizer.plot_per_stock_pnl(trader.per_stock_detail[ticker], ticker)

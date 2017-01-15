@@ -22,3 +22,9 @@ class VisualizationData:
 			self.info_by_ticker[ticker_symbol] = []
 
 		self.info_by_ticker[ticker_symbol]['signal_values'].append(signal_value)
+
+	def add_daily_pnl(self, ticker_symbol, pnl):
+		if ticker_symbol not in self.info_by_ticker:
+			self.info_by_ticker[ticker_symbol] = []
+
+		self.info_by_ticker[ticker_symbol]['daily_pnl'].append(pnl)

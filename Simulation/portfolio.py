@@ -7,9 +7,11 @@ __author__ = 'raymond'
 
 
 class Portfolio:
-	def __init__(self):
+	def __init__(self, capital_per_stock):
+		self.capital_per_stock = capital_per_stock
 		self.shares_by_ticker = {}
 		self.target_exposures_by_ticker = {}
+		self.cash_by_ticker = {}
 
 	def buy(self, market_snapshot, ticker, amount):
 		market_snapshot_helper = MarketSnapshotHelper(market_snapshot)
@@ -22,6 +24,9 @@ class Portfolio:
 			self.shares_by_ticker[ticker] += num_shares
 		else:
 			self.shares_by_ticker[ticker] = num_shares
+			self.cash_by_ticker[ticker] = self.capital_per_stock
+
+		self.cash_by_ticker[ticker] -= used_amount
 
 		return extra_capital
 
@@ -36,6 +41,9 @@ class Portfolio:
 			self.shares_by_ticker[ticker] -= num_shares
 		else:
 			self.shares_by_ticker[ticker] = -num_shares
+			self.cash_by_ticker[ticker] = self.capital_per_stock
+
+		self.cash_by_ticker[ticker] += used_amount
 
 		return extra_capital
 
@@ -45,9 +53,22 @@ class Portfolio:
 
 		return PortfolioSummary(profit_by_ticker, self.target_exposures_by_ticker)
 
+	def get_snapshot(self, market_snapshot: MarketSnapshot):
+		snapshot = {}
+		market_snapshot_helper = MarketSnapshotHelper(market_snapshot)
+
+		for ticker in self.shares_by_ticker:
+			stock_value = market_snapshot_helper.convert_shares_to_capital(ticker, self.shares_by_ticker[ticker])
+			pnl = self.cash_by_ticker[ticker] + stock_value - self.capital_per_stock
+			snapshot[ticker] = pnl
+
+		return snapshot
+
 	def clear(self):
 		self.shares_by_ticker.clear()
 		self.target_exposures_by_ticker = {}
+		for ticker in self.cash_by_ticker:
+			self.cash_by_ticker[ticker] = self.capital_per_stock
 
 	def _update_capital_exposure(self, timestamp, ticker, used_amount):
 		if ticker not in self.target_exposures_by_ticker:
@@ -60,3 +81,4 @@ class Portfolio:
 			return True
 		else:
 			return False
+
