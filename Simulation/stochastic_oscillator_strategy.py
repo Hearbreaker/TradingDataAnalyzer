@@ -94,9 +94,9 @@ class StochasticOscillatorStrategy:
                 dec_value = 0
 
             if dec_value > 0:
-                decisions.append((stock_snapshot.ticker, +self.transaction_amount))
-            elif dec_value < 0:
                 decisions.append((stock_snapshot.ticker, -self.transaction_amount))
+            elif dec_value < 0:
+                decisions.append((stock_snapshot.ticker, +self.transaction_amount))
             else:
                 decisions = []
 

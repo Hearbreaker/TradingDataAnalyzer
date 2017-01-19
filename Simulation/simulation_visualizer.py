@@ -56,14 +56,33 @@ class SimulationVisualizer:
 
 
 	@staticmethod
-	def plot_per_stock_pnl(Plist, ticker):
+	def plot_per_stock_pnl(MinList, ticker):
+		#390
+		DayList = []
+		i = 0
+		day = 1
+		for min in MinList:
+			if i < 390 :
+				DayList.append(min)
+				i += 1
+			else:
+				SimulationVisualizer._perstockpnl_helper(DayList, day, ticker)
+				DayList = []
+				day += 1
+				i = 0
+
+
+	@staticmethod
+	def _perstockpnl_helper(DayList, day, ticker):
 		sample_file_name = "".join([c for c in ticker if c.isalpha() or c.isdigit() or c == ' ']).rstrip()
-		plt.plot(Plist, label="PnL".join(sample_file_name))
-		plt.xlabel('minutes')
-		plt.ylabel('PnL')
+		sample_file_name = sample_file_name + ' day' + str(day)
+		plt.plot(DayList, label="PnL".join(sample_file_name))
+		plt.xlabel('Time(min)')
+		plt.ylabel('PnL(dollar)')
 		script_dir = os.path.dirname(__file__)
 		results_dir = os.path.join(script_dir, 'Results')
 		results_dir = os.path.join(results_dir, 'PerStockPNL')
+		results_dir = os.path.join(results_dir, ticker)
 		results_path = os.path.join(results_dir, sample_file_name)
 		if not os.path.isdir(results_dir):
 			os.makedirs(results_dir)
