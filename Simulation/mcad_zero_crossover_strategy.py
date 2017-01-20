@@ -45,9 +45,9 @@ class McadZeroCrossoverStrategy:
 			self.old_mcads[i] = curr_mcad
 
 			if del_mcad > 0:
-				decisions.append((stock_snapshot.ticker, self.transaction_amount))
-			elif del_mcad < 0:
 				decisions.append((stock_snapshot.ticker, -self.transaction_amount))
+			elif del_mcad < 0:
+				decisions.append((stock_snapshot.ticker, self.transaction_amount))
 
 		return decisions
 

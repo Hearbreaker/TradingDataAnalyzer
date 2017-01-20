@@ -59,9 +59,9 @@ class McadSignalLineCrossoverStrategy:
 			should_buy = SignFunction.evaluate(curr_del) - SignFunction.evaluate(self.old_dels[i])
 
 			if should_buy > 0:
-				decisions.append((stock_snapshot.ticker, self.transaction_amount))
-			elif should_buy < 0:
 				decisions.append((stock_snapshot.ticker, -self.transaction_amount))
+			elif should_buy < 0:
+				decisions.append((stock_snapshot.ticker, self.transaction_amount))
 
 			self.old_dels[i] = curr_del
 

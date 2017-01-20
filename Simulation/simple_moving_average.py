@@ -28,5 +28,3 @@ class Simple_Moving_Average:
         self.first_valid_minute = 0
         self.next_minute = 0
         self.price_buffer.clear()
-
-
